@@ -1,0 +1,16 @@
+{
+    "name": "com.victorafael.translation.editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:29fe66ba157f86e43b00f01235c5e85d"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

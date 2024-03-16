@@ -1,0 +1,10 @@
+{
+  "name": "victorafael.translation",
+  "version": "0.0.1",
+  "displayName": "Translation System",
+  "description": "Translation System with editor window",
+  "author": {
+    "name": "Victor Rafael",
+    "email": "vrnsantos@gmail.com"
+  }
+}
