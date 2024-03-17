@@ -7,6 +7,7 @@ namespace com.victorafael.translation
     [System.Serializable]
     public class TranslatedString
     {
-        public string key;
+        [SerializeField] string key;
+        public string Value => TranslationManager.GetTranslation(key);
     }
 }
