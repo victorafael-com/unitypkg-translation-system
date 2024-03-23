@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 namespace com.victorafael.translation
 {
@@ -29,6 +30,8 @@ namespace com.victorafael.translation
 
             }
         }
+
+        public string defaultLanguage;
         public string[] languages;
 
         public TranslationEntry[] entries;

@@ -5,9 +5,7 @@ namespace com.victorafael.translation
 {
     public static class TranslationManager
     {
-        private static Dictionary<string, string> translations = new Dictionary<string, string>();
-        private const string defaultLanguage = "en";
-
+        private static Dictionary<string, string> translations = null;
         public static void SetLanguage(string key)
         {
             LoadTranslation(key);
@@ -15,19 +13,29 @@ namespace com.victorafael.translation
 
         private static void LoadTranslation(string language = null)
         {
-            if (string.IsNullOrEmpty(language))
-            {
-                language = PlayerPrefs.GetString("SELECTED_LANGUAGE", defaultLanguage);
-            }
-            else
-            {
-                PlayerPrefs.SetString("SELECTED_LANGUAGE", language);
-            }
-            translations.Clear();
+
             TranslationData data = Resources.Load<TranslationData>("TranslationData");
             if (data != null)
             {
+                if (string.IsNullOrEmpty(language))
+                {
+                    language = PlayerPrefs.GetString("SELECTED_LANGUAGE", data.defaultLanguage);
+                }
+                else
+                {
+                    PlayerPrefs.SetString("SELECTED_LANGUAGE", language);
+                }
+
+
+                if (translations != null)
+                    translations.Clear();
                 translations = data.GetTranslations(language);
+
+                Debug.Log($"Translation ready with {translations.Count} entries. keys:");
+                foreach (var key in translations.Keys)
+                {
+                    Debug.Log($"{key}: {translations[key]}");
+                }
             }
             else
             {
@@ -40,7 +48,7 @@ namespace com.victorafael.translation
             {
                 LoadTranslation();
             }
-            return key;
+            return translations.ContainsKey(key) ? translations[key] : $">{key}< Missing!";
         }
     }
 }
