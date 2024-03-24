@@ -24,6 +24,8 @@ namespace com.victorafael.translation
         private Vector2 scrollPos = Vector2.zero;
         private Vector2 entryScrollPos = Vector2.zero;
 
+        private GUIStyle _hoverStyle = null;
+
         #region enums
         enum WindowState
         {
@@ -138,7 +140,8 @@ namespace com.victorafael.translation
             }
             GUI.color = Color.white;
 
-            var buttonSize = GUILayout.Width(30);
+            int buttonWidth = 30;
+            var buttonSize = GUILayout.Width(buttonWidth);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Key", columnSize);
             for (int i = 0; i < languages.arraySize; i++)
@@ -157,8 +160,13 @@ namespace com.victorafael.translation
             for (var i = 0; i < data.entries.Length; i++)
             {
                 var entry = data.entries[i];
+
                 EditorGUILayout.BeginHorizontal();
-                GUILayout.Label(entry.key, columnSize);
+                if (GUILayout.Button(entry.key, columnSize))
+                {
+                    onSelectString?.Invoke(entry.key);
+                    Close();
+                }
                 for (int j = 0; j < entry.values.Length; j++)
                 {
                     GUILayout.Label(entry.values[j], columnSize);
