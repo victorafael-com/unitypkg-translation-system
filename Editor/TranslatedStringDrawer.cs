@@ -6,19 +6,40 @@ namespace com.victorafael.translation
     [CustomPropertyDrawer(typeof(TranslatedString))]
     public class TranslatedStringDrawer : PropertyDrawer
     {
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            return (EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing) * 2;
+        }
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             // position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
-
             EditorGUI.BeginProperty(position, label, property);
-            EditorGUILayout.BeginHorizontal();
+
             SerializedProperty key = property.FindPropertyRelative("key");
-            EditorGUILayout.PropertyField(key, label, GUILayout.MinWidth(0));
-            if (GUILayout.Button("...", GUILayout.Width(20)))
+            Rect fullLineRect = new Rect(position);
+
+            fullLineRect.y += fullLineRect.height / 2;
+            fullLineRect.height = EditorGUIUtility.singleLineHeight;
+
+            position.height = EditorGUIUtility.singleLineHeight;
+
+
+            position.width -= 25;
+            EditorGUI.PropertyField(position, key, label, true);
+            position.x = position.xMax + 5;
+            position.width = 20;
+
+            // EditorGUILayout.PropertyField(key, label, GUILayout.MinWidth(0));
+            if (GUI.Button(position, "..."))
             {
-                TranslationEditorWindow.ShowWindow();
+                TranslationEditorWindow.ShowWindow(selectedKey =>
+                {
+                    key.stringValue = selectedKey;
+                    key.serializedObject.ApplyModifiedProperties();
+                });
             }
-            EditorGUILayout.EndHorizontal();
+
+            EditorGUI.HelpBox(fullLineRect, TranslationManager.GetTranslation(key.stringValue), MessageType.None);
 
             EditorGUI.EndProperty();
         }
