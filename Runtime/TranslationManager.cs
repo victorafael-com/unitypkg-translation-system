@@ -30,12 +30,6 @@ namespace com.victorafael.translation
                 if (translations != null)
                     translations.Clear();
                 translations = data.GetTranslations(language);
-
-                Debug.Log($"Translation ready with {translations.Count} entries. keys:");
-                foreach (var key in translations.Keys)
-                {
-                    Debug.Log($"{key}: {translations[key]}");
-                }
             }
             else
             {
