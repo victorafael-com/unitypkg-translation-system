@@ -29,7 +29,7 @@ namespace com.victorafael.translation
 
                 if (translations != null)
                     translations.Clear();
-                translations = data.GetTranslations(language);
+                translations = data.GetTranslations(language, translations);
             }
             else
             {

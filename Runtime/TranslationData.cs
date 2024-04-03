@@ -63,7 +63,14 @@ namespace com.victorafael.translation
             {
                 if (entry.values.Length > languageIndex)
                 {
-                    translationDictionary.Add(entry.key, entry.values[languageIndex]);
+                    if (translationDictionary.ContainsKey(entry.key))
+                    {
+                        Debug.LogWarning("Key already exists: " + entry.key);
+                    }
+                    else
+                    {
+                        translationDictionary.Add(entry.key, entry.values[languageIndex]);
+                    }
                 }
                 else
                 {
