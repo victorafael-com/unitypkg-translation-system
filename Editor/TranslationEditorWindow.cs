@@ -275,6 +275,12 @@ namespace com.victorafael.translation
                 saveEntry.FindPropertyRelative("key").stringValue = editingEntry.key;
 
                 var saveValues = saveEntry.FindPropertyRelative("values");
+
+                if (saveValues.arraySize < languages.arraySize)
+                {
+                    saveValues.arraySize = languages.arraySize;
+                }
+
                 for (int i = 0; i < languages.arraySize; i++)
                 {
                     saveValues.GetArrayElementAtIndex(i).stringValue = editingEntry.values[i];
