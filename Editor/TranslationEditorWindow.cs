@@ -236,6 +236,19 @@ namespace com.victorafael.translation
             DrawTitle(isEdit ? "Edit Entry" : "Add Entry", false);
             GUI.SetNextControlName("Key");
             editingEntry.key = EditorGUILayout.TextField(new GUIContent("Key"), editingEntry.key);
+            if (editingEntry.values == null)
+            {
+                editingEntry.values = new string[languages.arraySize];
+            }
+            else if (editingEntry.values.Length != languages.arraySize)
+            {
+                var newValues = new string[languages.arraySize];
+                for (int i = 0; i < Mathf.Min(newValues.Length, editingEntry.values.Length); i++)
+                {
+                    newValues[i] = editingEntry.values[i];
+                }
+                editingEntry.values = newValues;
+            }
             for (int i = 0; i < languages.arraySize; i++)
             {
                 var val = editingEntry.values[i];
