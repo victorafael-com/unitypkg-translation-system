@@ -105,6 +105,29 @@ namespace com.victorafael.translation
             }
         }
 
+        private void HandleMultilineTextArea(SerializedProperty property, string controlName, string nextControlName)
+        {
+            Event e = Event.current;
+
+            // Check if the current control has focus and if the Tab key is pressed
+            if (GUI.GetNameOfFocusedControl() == controlName && e.type == EventType.KeyDown && e.keyCode == KeyCode.Tab)
+            {
+                // Prevent the Tab character from being added
+                e.Use();
+
+                // Move focus to the next control
+                EditorGUI.FocusTextInControl(nextControlName);
+
+                return;
+            }
+
+            // Set the name for the next control to manage focus
+            GUI.SetNextControlName(controlName);
+
+            // Draw the property field (which can be a multi-line text area)
+            EditorGUILayout.PropertyField(property, new GUIContent(property.displayName), GUILayout.Height(60));
+        }
+
         private void EditEntry(int index, TranslationData.TranslationEntry sourceEntry = null)
         {
             editingEntryIndex = index;
@@ -254,6 +277,17 @@ namespace com.victorafael.translation
                 var val = editingEntry.values[i];
                 var lang = languages.GetArrayElementAtIndex(i).stringValue;
 
+                Event e = Event.current;
+                if (e.type == EventType.KeyDown && e.keyCode == KeyCode.Tab && GUI.GetNameOfFocusedControl() == lang)
+                {
+                    if (i < languages.arraySize - 1)
+                        EditorGUI.FocusTextInControl(languages.GetArrayElementAtIndex(i + 1).stringValue);
+                    else
+                        GUI.FocusControl("save");
+
+                    e.Use();
+                }
+
                 EditorGUILayout.LabelField(lang);
                 GUI.SetNextControlName(lang);
                 editingEntry.values[i] = EditorGUILayout.TextArea(val, GUILayout.MaxHeight(60));
@@ -282,6 +316,7 @@ namespace com.victorafael.translation
                 state = WindowState.Main;
             }
             GUI.color = new Color(0.6f, 1, 0.6f);
+            GUI.SetNextControlName("save");
             if (GUILayout.Button("Save", buttonWidth))
             {
                 var saveEntry = entries.GetArrayElementAtIndex(editingEntryIndex);
