@@ -42,6 +42,10 @@ namespace com.victorafael.translation
             {
                 LoadTranslation();
             }
+            if (string.IsNullOrEmpty(key))
+            {
+                return string.Empty;
+            }
             return translations.ContainsKey(key) ? translations[key] : $">{key}< Missing!";
         }
     }
